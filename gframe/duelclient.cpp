@@ -2885,15 +2885,13 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 		int ct = BufferIO::ReadInt8(pbuf);
 		if(mainGame->dInfo.isReplay && mainGame->dInfo.isReplaySkiping)
 			return true;
-		if(mainGame->dField.chains.size() > 1 || mainGame->gameConf.draw_single_chain) {
-			if (mainGame->dField.last_chain)
-				mainGame->WaitFrameSignal(11);
-			for(int i = 0; i < 5; ++i) {
-				mainGame->dField.chains[ct - 1].solved = false;
-				mainGame->WaitFrameSignal(3);
-				mainGame->dField.chains[ct - 1].solved = true;
-				mainGame->WaitFrameSignal(3);
-			}
+		if(mainGame->dField.last_chain)
+			mainGame->WaitFrameSignal(11);
+		for(int i = 0; i < 5; ++i) {
+			mainGame->dField.chains[ct - 1].solved = false;
+			mainGame->WaitFrameSignal(3);
+			mainGame->dField.chains[ct - 1].solved = true;
+			mainGame->WaitFrameSignal(3);
 		}
 		mainGame->dField.last_chain = false;
 		return true;
